@@ -25,8 +25,11 @@ const fs = require("fs");
 const zlib = require("zlib");
 
 function zlibPromise(data) {
-  zlib.gzip(data, (error, result) => {
-    //TODO
+  return new Promise((resolve, reject) => {
+    zlib.gzip(data, (error, result) => {
+      if (error) return reject(error);
+      resolve(result);
+    });
   });
 }
 
@@ -40,8 +43,8 @@ function readFile(filename, encoding) {
 }
 
 readFile("./files/demofile.txt", "utf-8")
-    .then(...) // --> Load it then zip it and then print it to screen
-});
+  .then(data => zlibPromise(data))
+  .then(result => console.log(result)); // --> Load it then zip it and then print it to screen
 ```
 
 # Question 3
