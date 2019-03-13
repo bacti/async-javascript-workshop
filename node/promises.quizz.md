@@ -36,15 +36,16 @@ function zlibPromise(data) {
 function readFile(filename, encoding) {
   return new Promise((resolve, reject) => {
     fs.readFile(filename, encoding, (err, data) => {
-      if (err) reject(err);
+      if (err) return reject(err);
       resolve(data);
     });
   });
 }
 
-readFile("./files/demofile.txt", "utf-8")
+readFile("./files/demofile2.txt", "utf-8")
   .then(data => zlibPromise(data))
-  .then(result => console.log(result)); // --> Load it then zip it and then print it to screen
+  .then(result => console.log(result))
+  .catch(error => console.log(error));
 ```
 
 # Question 3
