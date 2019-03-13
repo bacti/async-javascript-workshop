@@ -87,8 +87,10 @@ function timeout(sleep) {
   return new Promise((resolve, reject) => setTimeout(reject, sleep, "timeout"));
 }
 
-Promise.race( [publish(), timeout(3000)])
-  .then(...)
-  .then(...)
-  .catch(...);
+Promise.race([
+  publish().then(res => res.status == 403 && authenticate()),
+  timeout(3000)
+])
+  .then(res => console.log(res.status))
+  .catch(error => console.error(error));
 ```
